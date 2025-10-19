@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Configurations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,9 @@ namespace Persistence
             modelBuilder.Entity<Order>().Property(o => o.TotalAmount).HasPrecision(10, 2);
             modelBuilder.Entity<OrderItem>().Property(oi => oi.SubTotal).HasPrecision(10, 2);
             modelBuilder.Entity<Payment>().Property(p => p.Amount).HasPrecision(10, 2);
+
+            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+
         }
     }
 

@@ -6,6 +6,7 @@ using AutoMapper;
 using Domain.Contracts;
 using Persistence.Repositories;
 using ServiceAbstraction;
+using Presentation.Middlewares;
 using Services;
 
 namespace RestaurantApi
@@ -26,6 +27,17 @@ namespace RestaurantApi
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+            builder.Services.AddScoped<IMenuItemService, MenuItemService>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            builder.Services.AddScoped<IOrderItemService, OrderItemService>();
+            builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
+
+
 
             // 3️ Add DbContext (Database Connection)
             builder.Services.AddDbContext<RestaurantDbContext>(options =>
@@ -45,6 +57,9 @@ namespace RestaurantApi
 
 
             var app = builder.Build();
+
+            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseCors("AllowAll"); 
 
             // run seeding at startup
             using (var scope = app.Services.CreateScope())
