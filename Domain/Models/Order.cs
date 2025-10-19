@@ -19,6 +19,7 @@ namespace Domain.Models
         public decimal TotalAmount { get; set; }
         public string Status { get; set; } = "Pending"; // Pending, Completed, Cancelled
         public ICollection<OrderItem> OrderItems { get; set; }
+        public ICollection<Payment> Payments { get; set; }
 
 
     }
