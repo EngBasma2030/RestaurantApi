@@ -19,14 +19,11 @@ namespace RestaurantApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // -------------------------------
-            // 1️⃣ Add services to the container
-            // -------------------------------
+       
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            // Repositories & Services
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<IUserService, UserService>();
@@ -43,16 +40,10 @@ namespace RestaurantApi
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            // -------------------------------
-            // 2️⃣ Add DbContext (SQL Server)
-            // -------------------------------
             builder.Services.AddDbContext<RestaurantDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
 
-            // -------------------------------
-            // 3️⃣ Enable CORS (Frontend Access)
-            // -------------------------------
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", policy =>
@@ -63,9 +54,6 @@ namespace RestaurantApi
                 });
             });
 
-            // -------------------------------
-            // 4️⃣ JWT Authentication
-            // -------------------------------
             var jwtSettings = builder.Configuration.GetSection("JWTOptions");
             var key = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]);
 
@@ -88,14 +76,8 @@ namespace RestaurantApi
                 };
             });
 
-            // -------------------------------
-            // 5️⃣ Build Application
-            // -------------------------------
             var app = builder.Build();
 
-            // -------------------------------
-            // 6️⃣ Middlewares & Pipeline
-            // -------------------------------
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseCors("AllowAll");
@@ -108,13 +90,9 @@ namespace RestaurantApi
 
             app.UseHttpsRedirection();
 
-            app.UseAuthentication();  // يجب أن يأتي قبل Authorization
+            app.UseAuthentication(); 
             app.UseAuthorization();
 
-            // -------------------------------
-            // 7️⃣ Database Seeding
-            // -------------------------------
-         
 
             app.MapControllers();
 
