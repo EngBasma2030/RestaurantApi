@@ -9,6 +9,7 @@ namespace Domain.Contracts
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        Task<User?> GetByFullNameAsync(string fullName);
         Task<User?> GetByEmailAsync(string email);
     }
 }

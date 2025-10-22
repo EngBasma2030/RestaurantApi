@@ -18,7 +18,7 @@ namespace Domain.Models
         [Required]
         public string PasswordHash { get; set; }
         [Required] 
-        public string  Role { get; set; }
+        public string  Role { get; set; } = "User";
 
         public ICollection<Order>? Orders { get; set; }
     }
