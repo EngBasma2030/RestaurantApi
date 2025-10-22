@@ -22,5 +22,10 @@ namespace Persistence.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
+
+        public async Task<User?> GetByFullNameAsync(string fullName)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.FullName == fullName);
+        }
     }
 }
