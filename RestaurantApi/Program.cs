@@ -102,8 +102,8 @@ namespace RestaurantApi
                 var db = scope.ServiceProvider.GetRequiredService<RestaurantDbContext>();
                 try
                 {
-                    db.Database.Migrate(); // يتأكد إن الداتابيز محدثة
-                    DbInitializer.Initialize(db); // يشغّل السييد
+                    db.Database.Migrate(); 
+                    DbInitializer.Initialize(db);  
                 }
                 catch (Exception ex)
                 {
